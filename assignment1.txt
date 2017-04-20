@@ -1,0 +1,60 @@
+1. remove duplicates in a query response
+
+SELECT DISTINCT column_name FROM table_name;
+result = table_name.distinct(column_name)
+
+2. filter records using inequalities, pattern matching, ranges, and boolean logic
+
+SELECT * FROM table_name WHERE column_name = boolean;
+result = table_name.all.equal(column_name, boolean);
+
+SELECT * FROM table_name WHERE column_name > value;
+result = table_name.all.greater(column_name, value, false)
+(could use boolean to indicate whether comparison is inclusive of value)
+
+SELECT * FROM table_name WHERE column_name LIKE pattern;
+result = table_name.all.like(column_name, pattern)
+
+SELECT * FROM table_name WHERE column_name BETWEEN value_1 AND value_2;
+result = table_name.all.between(column_name, value_1, value_2)
+
+3. sort records in a particular order
+
+SELECT * FROM table_name ORDER BY column_name ASC;
+result = table_name.all.sort(column_name, true)
+(could use boolean to indicate ASC or DESC)
+
+4. limit the number of records returned
+
+SELECT * FROM table_name LIMIT number;
+result = table_name.all.limit(number)
+
+5. group records into sections
+
+SELECT column_name, COUNT(*) FROM table_name GROUP BY column_name;
+result = table_name.column_name.group(column_name).count()
+example: color_quantitities = Items.color.group(color).count()
+
+6. perform calculations using aggregate functions
+
+SELECT AVG(column_name) FROM table_name;
+result = table_name.average(column_name);
+
+SELECT COUNT(column_name) FROM table_name;
+result = table_name.count(column_name);
+
+7. join tables using cross join, inner join, and outer join
+
+Cross join:
+SELECT column_name(s) FROM table_1
+JOIN table_2;
+result = table_1.combine(table_2)
+
+Inner/outer join example:
+SELECT albums.name,
+       albums.year,
+       artists.name
+FROM albums
+JOIN artists ON albums.artist_id = artists.id;
+result = albums.select(name, year).addbyID(artists.name, true)
+(could use boolean to determine inner or outer join)
